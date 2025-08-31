@@ -15,7 +15,7 @@ with DAG( # DAG을 정의한는 부분
 ) as dag:
 
     task_get_sftp = PythonOperator(
-        task_id="py_t1",
+        task_id="task_get_sftp",
         python_callable=get_sftp
     )
 
