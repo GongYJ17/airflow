@@ -15,7 +15,7 @@ with DAG( # DAG을 정의한는 부분
     get_diplomacy_info = HttpOperator(
         task_id='get_diplomacy_info',
         http_conn_id='openapi.data.go.kr',
-        endpoint='/1262000/DiplomacyJournalService',  # 실제 API 엔드포인트
+        endpoint='/1262000/DiplomacyJournalService/getDiplomacyJournalList',  # 실제 API 엔드포인트
         method='GET',
         data={
             'serviceKey': 'EY9KD4N1rfHjBemZB5rmj/GdCrIwKdmHC2EibAahXYrY/2EW6glZA5kjIoLQ9lpMPSVNkcvqKzSg9tt5y8vhpA==',  # 여기에 실제 서비스 키 입력
