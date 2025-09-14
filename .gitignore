@@ -2,3 +2,4 @@ venv
 .DS_Store
 .env
 설명.txt
+tmp.py
