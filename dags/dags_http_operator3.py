@@ -23,7 +23,7 @@ with DAG( # DAG을 정의한는 부분
         "pageNo": 1
         },
         headers={"Content-Type": "application/json"},
-        log_response=True,
+        log_response=True, # 응답 확인 로그를 남겨줌
         do_xcom_push=True
     )
 
@@ -32,7 +32,7 @@ with DAG( # DAG을 정의한는 부분
 
     def python_2(**kwargs):
         ti = kwargs['ti']
-        rslt = ti.xcom_pull(task_ids='get_deplomacy_info')
+        rslt = ti.xcom_pull(task_ids='get_diplomacy_info')
         
         import json
         from pprint import pprint
