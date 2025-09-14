@@ -29,10 +29,12 @@ with DAG( # DAG을 정의한는 부분
     @task(task_id='python_2')
     def python_2(**kwargs):
         ti = kwargs['ti']
+        print(ti)
         rslt = ti.xcom_pull(task_ids='get_deplomacy_info')
-        import json
-        from pprint import pprint
+        print(rslt)
+        # import json
+        # from pprint import pprint
 
-        pprint(rslt.json())
+        # pprint(rslt.json())
         
     get_diplomacy_info >> python_2()
