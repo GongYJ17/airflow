@@ -32,4 +32,4 @@ with DAG( # DAG을 정의한는 부분
 
         pprint(json.loads(rslt))
         
-    tb_cycle_station_info >> python_2()
+    get_deplomacy_info >> python_2()
