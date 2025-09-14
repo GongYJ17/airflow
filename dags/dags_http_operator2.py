@@ -6,8 +6,8 @@ from airflow.providers.http.operators.http import HttpOperator
 
 
 with DAG( # DAG을 정의한는 부분
-    dag_id="dags_python_task_decorator", # DAG python 파일명과 일치 권장
-    schedule="30 6 * * *", # 0시0분 (언제 도는지)
+    dag_id="dags_http_operator2", # DAG python 파일명과 일치 권장
+    schedule=None, # 0시0분 (언제 도는지)
     start_date=pendulum.datetime(2025, 8, 31, tz="Asia/Seoul"), #UTC는 한국시간 +9임.
     catchup=False, # 소급적용을 할건지
 ) as dag:
@@ -26,7 +26,7 @@ with DAG( # DAG을 정의한는 부분
     @task(task_id='python_2')
     def python_2(**kwargs):
         ti = kwargs['ti']
-        rslt = ti.xcom_pull(task_ids='tb_cycle_station_info')
+        rslt = ti.xcom_pull(task_ids='get_deplomacy_info')
         import json
         from pprint import pprint
 
