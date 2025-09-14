@@ -33,6 +33,6 @@ with DAG( # DAG을 정의한는 부분
         import json
         from pprint import pprint
 
-        pprint(json.loads(rslt))
+        pprint(rslt.json())
         
     get_diplomacy_info >> python_2()
