@@ -23,18 +23,75 @@ with DAG( # DAG을 정의한는 부분
         "pageNo": 1
         },
         headers={"Content-Type": "application/json"},
-        extra_options={"verify": False}  # SSL 검증 비활성화
+        log_response=True,
+        do_xcom_push=True
     )
 
+
     @task(task_id='python_2')
+
     def python_2(**kwargs):
         ti = kwargs['ti']
-        print(ti)
         rslt = ti.xcom_pull(task_ids='get_deplomacy_info')
-        print(rslt)
-        # import json
-        # from pprint import pprint
-
-        # pprint(rslt.json())
         
+        import json
+        from pprint import pprint
+        
+        print("=== XCom 데이터 확인 ===")
+        print(f"데이터 존재 여부: {rslt is not None}")
+        
+        if rslt:
+            print(f"데이터 타입: {type(rslt)}")
+            
+            # 문자열인 경우 JSON 파싱
+            if isinstance(rslt, str):
+                try:
+                    data = json.loads(rslt)
+                    print("=== 외교일지 데이터 ===")
+                    pprint(data)
+                    
+                    # 데이터 구조 분석
+                    if 'response' in data:
+                        header = data['response'].get('header', {})
+                        body = data['response'].get('body', {})
+                        
+                        print(f"\n결과 코드: {header.get('resultCode')}")
+                        print(f"결과 메시지: {header.get('resultMsg')}")
+                        
+                        if body:
+                            items = body.get('items', {})
+                            if items:
+                                item_list = items.get('item', [])
+                                print(f"\n총 {body.get('totalCount', 0)}개 중 {len(item_list)}개 조회")
+                                
+                                # 첫 번째 항목 상세 출력
+                                if item_list and len(item_list) > 0:
+                                    print("\n=== 첫 번째 외교일지 ===")
+                                    first_item = item_list[0] if isinstance(item_list, list) else item_list
+                                    for key, value in first_item.items():
+                                        print(f"{key}: {value}")
+                    
+                except json.JSONDecodeError as e:
+                    print(f"JSON 파싱 실패: {e}")
+                    print(f"원본 데이터: {rslt[:500]}")
+            
+            # 이미 dict인 경우
+            elif isinstance(rslt, dict):
+                print("=== 이미 파싱된 데이터 ===")
+                pprint(rslt)
+        else:
+            print("❌ XCom에 데이터가 없습니다!")
+            print("HttpOperator 로그를 확인하세요.")
+
+    # @task(task_id='python_2')
+    # def python_2(**kwargs):
+    #     ti = kwargs['ti']
+    #     rslt = ti.xcom_pull(task_ids='get_deplomacy_info')
+    #     import json
+    #     from pprint import pprint
+
+    #     pprint(rslt.json())
+    
+
+
     get_diplomacy_info >> python_2()
