@@ -23,7 +23,7 @@ with DAG(
         if selected_item == 'A':
             return 'task_a' # task_id
         elif selected_item in ['B','C']:
-            return ['task_b','task_c'] #task_id
+            return ['task_b','task_c'] # 여러 task_id 일때.
     
     python_branch_task = BranchPythonOperator(
         task_id='python_branch_task',
