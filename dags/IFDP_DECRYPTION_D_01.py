@@ -1,6 +1,6 @@
 from airflow import DAG # Airflow 버전 2
 from airflow.decorators import task # Airflow 버전 2
-from common.config import schedule_param
+from common import config
 import pendulum
 import datetime
 

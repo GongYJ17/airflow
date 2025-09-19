@@ -5,3 +5,8 @@ venv
 tmp.py
 directory 구조.txt
 common
+SAMPLE_DAG.py
+IFDP_INGESTION_D_02.py
+IFDP_INGESTION_D_02_others.py
+IFDP_DECRYPTION_D_01.py
+IFDP_DC_D_02.py
