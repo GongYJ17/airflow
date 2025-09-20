@@ -23,7 +23,7 @@ with DAG(
         print(status)
 
     xcom_return_input(xcom_return())
-    xcom_return_task >> xcom_pull()
+    xcom_return() >> xcom_pull()
 
 
 
