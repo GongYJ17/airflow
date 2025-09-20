@@ -28,8 +28,8 @@ with DAG(
 
     @task(task_id = 'xcom_input_multiple_task')
     def xcom_multiple_return_input(status_dic, **kwargs):
-        print('status_dic['key1'] : ' + status_dic['key1'])
-        print('status_dic['key2'] : ' + status_dic['key2'])
+        print('status_dic[key1] : ' + status_dic['key1'])
+        print('status_dic[key2] : ' + status_dic['key2'])
 
 
 
