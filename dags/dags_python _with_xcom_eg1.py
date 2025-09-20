@@ -1,7 +1,7 @@
 from airflow.sdk import DAG, task
 
 with DAG(
-    dag_id='dags_python _with_xcom_eg1',
+    dag_id='dags_python_with_xcom_eg1',
     start_date=None,
     schedule=None,
     catchup=False
