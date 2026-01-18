@@ -2,10 +2,10 @@ from airflow import DAG
 from airflow.utils.task_group import TaskGroup
 from datetime import datetime
 
-from plugins.operators.collect_source_path_operator import CollectSourcePathOperator
-from plugins.operators.ml_operator import MLOperator
-from plugins.operators.transform_operator import TransformOperator
-from plugins.operators.translate_operator import TranslateOperator
+from operators.collect_source_path_operator import CollectSourcePathOperator
+from operators.ml_operator import MLOperator
+from operators.transform_operator import TransformOperator
+from operators.translate_operator import TranslateOperator
 
 
 with DAG(
