@@ -1,5 +1,5 @@
 from airflow import DAG
-from airflow.utils.task_group import TaskGroup
+from airflow.utils.task_group import task_group
 from datetime import datetime
 
 from operators.collect_source_path_operator import CollectSourcePathOperator
@@ -7,41 +7,44 @@ from operators.ml_operator import MLOperator
 from operators.transform_operator import TransformOperator
 from operators.translate_operator import TranslateOperator
 
-
 with DAG(
     dag_id="int_dplm_comm_pipeline",
     start_date=datetime(2024, 1, 1),
     schedule=None,
     catchup=False,
+    tags=["int_dplm_comm"],
 ) as dag:
 
-    # 1. source_path 수집
+    # 1️⃣ source_path 리스트 생성
     collect_source_paths = CollectSourcePathOperator(
         task_id="collect_source_paths"
     )
 
-    # 2. path 하나당 처리 파이프라인
-    with TaskGroup("process_by_security_level") as process_group:
+    # 2️⃣ path 하나당 독립 파이프라인 TaskGroup
+    @task_group(group_id="pipeline")
+    def pipeline_group(source_path: str):
 
-        transform = TransformOperator.partial(
-            task_id="transform"
-        ).expand(
-            source_path=collect_source_paths.output
+        transform = TransformOperator(
+            task_id="transform",
+            source_path=source_path,
         )
 
-        translate = TranslateOperator.partial(
-            task_id="translate"
-        ).expand(
-            source_path=collect_source_paths.output
+        translate = TranslateOperator(
+            task_id="translate",
+            source_path=source_path,
         )
 
-        ml = MLOperator.partial(
-            task_id="ml"
-        ).expand(
-            source_path=collect_source_paths.output
+        ml = MLOperator(
+            task_id="ml",
+            source_path=source_path,
         )
 
-        # path 내부 순서 보장
+        # path 내부 순서만 보장
         transform >> translate >> ml
 
-    collect_source_paths >> process_group
+    # 3️⃣ TaskGroup 자체를 Dynamic Mapping
+    pipelines = pipeline_group.expand(
+        source_path=collect_source_paths.output
+    )
+
+    collect_source_paths >> pipelines
