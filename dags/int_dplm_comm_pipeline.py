@@ -1,5 +1,5 @@
 from airflow import DAG
-from airflow.utils.task_group import task_group
+from airflow.decorators import task_group
 from datetime import datetime
 
 from operators.collect_source_path_operator import CollectSourcePathOperator
