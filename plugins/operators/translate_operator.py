@@ -5,6 +5,7 @@ import time
 from path.data_path_builder import DataPathBuilder
 
 class TranslateOperator(BaseOperator):
+    template_fields = ("ts")
     def __init__(self, collection_nm: str, ts: str, ingest_type: str, **kwargs):
         super().__init__(**kwargs)
         self.collection_nm = collection_nm
