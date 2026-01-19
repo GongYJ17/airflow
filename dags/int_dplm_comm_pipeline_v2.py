@@ -9,7 +9,7 @@ from operators.transform_operator import TransformOperator
 from operators.translate_operator import TranslateOperator
 
 with DAG(
-    dag_id="int_dplm_comm_pipeline",
+    dag_id="int_dplm_comm_pipeline_v2",
     start_date=datetime(2024, 1, 1),
     schedule=None,
     catchup=False,
