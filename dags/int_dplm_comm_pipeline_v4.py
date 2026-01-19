@@ -19,8 +19,8 @@ with DAG(
     ingest_type = "init"  # "init" | "incremental"
 
     # 🔹 ts는 외부 raw 기준
-    collect_ts = CollectSourceTsOperator(
-        task_id="collect_ts",
+    decoding = CollectSourceTsOperator(
+        task_id="decoding",
         raw_base_path="/data/raw/int_dplm_comm",
     )
 
@@ -37,24 +37,24 @@ with DAG(
             transform = TransformOperator(
                 task_id=f"transform_{i}",
                 collection_nm=collection_nm,
-                ts="{{ ti.xcom_pull(task_ids='collect_ts') }}",
+                ts="{{ ti.xcom_pull(task_ids='decoding') }}",
                 ingest_type=ingest_type,
             )
 
             translate = TranslateOperator(
                 task_id=f"translate_{i}",
                 collection_nm=collection_nm,
-                ts="{{ ti.xcom_pull(task_ids='collect_ts') }}",
+                ts="{{ ti.xcom_pull(task_ids='decoding') }}",
                 ingest_type=ingest_type,
             )
 
             ml = MLOperator(
                 task_id=f"ml_{i}",
                 collection_nm=collection_nm,
-                ts="{{ ti.xcom_pull(task_ids='collect_ts') }}",
+                ts="{{ ti.xcom_pull(task_ids='decoding') }}",
                 ingest_type=ingest_type,
             )
 
             transform >> translate >> ml
 
-        collect_ts >> tg
+        decoding >> tg
