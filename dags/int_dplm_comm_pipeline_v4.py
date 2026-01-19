@@ -16,7 +16,7 @@ with DAG(
     tags=["int_dplm_comm"],
 ) as dag:
 
-    ingest_type = "incremental"  # "init" | "incremental"
+    ingest_type = "init"  # "init" | "incremental"
 
     # 🔹 ts는 외부 raw 기준
     collect_ts = CollectSourceTsOperator(
