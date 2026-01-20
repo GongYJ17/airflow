@@ -34,21 +34,21 @@ with DAG(
             transform = TransformOperator(
                 task_id=f"transform",
                 collection_nm=collection_nm,
-                ts="{{ dag_run.start_date.strftime('%Y%m%d%H%M%S') }}",
+                ts="{{ ts_nodash }}",
                 ingest_type=ingest_type,
             )
 
             translate = TranslateOperator(
                 task_id=f"translate",
                 collection_nm=collection_nm,
-                ts="{{ dag_run.start_date.strftime('%Y%m%d%H%M%S') }}",
+                ts="{{ ts_nodash }}",
                 ingest_type=ingest_type,
             )
 
             ml = MLOperator(
                 task_id=f"ml",
                 collection_nm=collection_nm,
-                ts="{{ dag_run.start_date.strftime('%Y%m%d%H%M%S') }}",
+                ts="{{ ts_nodash }}",
                 ingest_type=ingest_type,
             )
 
