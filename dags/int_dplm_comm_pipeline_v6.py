@@ -9,15 +9,12 @@ from operators.translate_operator import TranslateOperator
 from operators.ml_operator import MLOperator
 
 
-KST = pendulum.timezone("Asia/Seoul")
-
 with DAG(
     dag_id="int_dplm_comm_pipeline_v6",
     start_date=datetime(2024, 1, 1),
     schedule=None,
     catchup=False,
     tags=["int_dplm_comm"],
-    timezone=KST
 ) as dag:
 
     ingest_type = "init"  # "init" | "incremental"
