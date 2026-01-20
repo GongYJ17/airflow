@@ -21,8 +21,8 @@ with DAG(
     raw_base_path = f"/share/airflow/data/raw/{collection_nm}"
 
     # 🔹 ts는 외부 raw 기준
-    decoding = CollectSourceTsOperator(
-        task_id="decoding",
+    ingestion = CollectSourceTsOperator(
+        task_id="ingestion",
         raw_base_path= raw_base_path,
     )
 
@@ -47,5 +47,5 @@ with DAG(
         ingest_type=ingest_type,
     )
 
-    decoding >> transform >> translate >> ml
+    ingestion >> transform >> translate >> ml
 
