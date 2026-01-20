@@ -9,7 +9,7 @@ from operators.ml_operator import MLOperator
 
 
 with DAG(
-    dag_id="int_dplm_comm_pipeline_v4",
+    dag_id="int_dplm_comm_pipeline_v6",
     start_date=datetime(2024, 1, 1),
     schedule=None,
     catchup=False,
