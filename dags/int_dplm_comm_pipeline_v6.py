@@ -33,21 +33,21 @@ with DAG(
             transform = TransformOperator(
                 task_id=f"transform",
                 collection_nm=collection_nm,
-                ts="{{ dag_run.start_date.in_timezone('Asia/Seoul').strftime('%Y%m%d%H%M%S') }}",
+                ts="{{ dag_run.start_date | tz('Asia/Seoul') | strftime('%Y%m%d%H%M%S') }}",
                 ingest_type=ingest_type,
             )
 
             translate = TranslateOperator(
                 task_id=f"translate",
                 collection_nm=collection_nm,
-                ts="{{ dag_run.start_date.in_timezone('Asia/Seoul').strftime('%Y%m%d%H%M%S') }}",
+                ts="{{ dag_run.start_date | tz('Asia/Seoul') | strftime('%Y%m%d%H%M%S') }}",
                 ingest_type=ingest_type,
             )
 
             ml = MLOperator(
                 task_id=f"ml",
                 collection_nm=collection_nm,
-                ts="{{ dag_run.start_date.in_timezone('Asia/Seoul').strftime('%Y%m%d%H%M%S') }}",
+                ts="{{ dag_run.start_date | tz('Asia/Seoul') | strftime('%Y%m%d%H%M%S') }}",
                 ingest_type=ingest_type,
             )
 
